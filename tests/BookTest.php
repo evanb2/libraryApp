@@ -215,5 +215,9 @@
             $this->assertEquals($test_book->getPatrons(), [$test_patron, $test_patron2]);
         }
 
+        //function test_update()
+
+        //function test_deleteBook()
+
     }
 ?>

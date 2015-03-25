@@ -244,5 +244,9 @@
             //Assert
             $this->assertEquals($test_patron->getBooks(), [$test_book, $test_book2]);
         }
+
+        //function test_deletePatron()
+
+        //function test_update()
     }
 ?>
