@@ -99,6 +99,11 @@
     //DELETE singular patron
 
     //DELETE singular book
+    $app->delete("/books/{id}", function($id) use ($app) {
+        $book = Book::find($id);
+        $book->deleteBook();
+        return $app['twig']->render('index.twig', array('books' => Book::getAll()));
+    });
 
     //PATCH routes
     $app->patch("/books/{id}", function($id) use ($app) {
