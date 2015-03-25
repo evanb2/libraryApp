@@ -19,6 +19,18 @@ title varchar
 duedate date
 id int
 
+patrons
+----------
+name varchar
+phone varchar
+id int
+
+books_patrons
+-------------
+book_id
+patron_id
+id
+
 authors
 ----------
 title varchar
@@ -33,9 +45,3 @@ checkouts (patrons and copies)
 ----------
 patron_id int
 copy_id int
-
-patrons
-----------
-name varchar
-phone varchar
-id int

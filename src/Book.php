@@ -54,6 +54,13 @@
             return $this->id;
         }
 
+        function save()
+        {
+            $statement = $GLOBALS['DB']->query("INSERT INTO books (author, title) VALUES ('{$this->getAuthor()}', '{$this->getTitle()}') RETURNING id;");
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $this->setId($result['id']);
+        }
+
         static function getAll()
         {
             $returned_books = $GLOBALS['DB']->query("SELECT * FROM books;");
@@ -69,11 +76,17 @@
             return $books;
         }
 
-        function save()
+        static function find($search_id)
         {
-            $statement = $GLOBALS['DB']->query("INSERT INTO books (author, title) VALUES ('{$this->getAuthor()}', '{$this->getTitle()}') RETURNING id;");
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $this->setId($result['id']);
+            $found_book = null;
+            $books = Book::getAll();
+            foreach($books as $book) {
+                $book_id = $book->getId();
+                if ($book_id == $search_id) {
+                    $found_book = $book;
+                }
+            }
+            return $found_book;
         }
 
         static function deleteAll()

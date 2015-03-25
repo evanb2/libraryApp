@@ -167,5 +167,29 @@
 
         }
 
+        function test_find()
+        {
+            //Arrange
+            $author = "Tom Clancy";
+            $title = "Hunt For The Red October";
+            // $duedate = "5/15/2015";
+            $id = 1;
+            $test_book = new Book($author, $title, $id);
+            $test_book->save();
+
+            $author2 = "Charles Dickens";
+            $title2 = "Tale of Two Cities";
+            // $duedate2 = "4/23/2015";
+            $id2 = 2;
+            $test_book2 = new Book ($author2, $title2, $id2);
+            $test_book2->save();
+
+            //Act
+            $result = Book::find($test_book->getId());
+
+            //Assert
+            $this->assertEquals($test_book, $result);
+        }
+
     }
 ?>
