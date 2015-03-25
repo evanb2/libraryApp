@@ -3,14 +3,12 @@
     {
         private $author;
         private $title;
-        // private $duedate;
         private $id;
 
         function __construct($author, $title, $id = null)
         {
             $this->author = $author;
             $this->title = $title;
-            // $this->duedate = $duedate;
             $this->id = $id;
         }
         //setters
@@ -23,11 +21,6 @@
         {
             $this->title = (string) $new_title;
         }
-
-        // function setDuedate($new_duedate)
-        // {
-        //     $this->duedate = (string) $new_duedate;
-        // }
 
         function setId($new_id)
         {
@@ -43,11 +36,6 @@
         {
             return $this->title;
         }
-
-        // function getDuedate()
-        // {
-        //     return $this->duedate;
-        // }
 
         function getId()
         {
@@ -68,7 +56,6 @@
             foreach($returned_books as $book) {
                 $author = $book['author'];
                 $title = $book['title'];
-                // $duedate = $book['duedate'];
                 $id = $book['id'];
                 $new_book = new Book($author, $title, $id);
                 array_push($books, $new_book);

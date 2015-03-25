@@ -6,6 +6,7 @@
     */
 
     require_once "src/Book.php";
+    require_once "src/Patron.php";
 
     $DB = new PDO('pgsql:host=localhost;dbname=library_test');
 
@@ -22,7 +23,6 @@
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = 1;
             $test_book = new Book($author, $title, $id);
 
@@ -38,7 +38,6 @@
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = 1;
             $test_book = new Book($author, $title, $id);
 
@@ -49,29 +48,11 @@
             $this->assertEquals($title, $result);
         }
 
-        // function test_getDuedate()
-        // {
-        //     //Arrange
-        //     $author = "Tom Clancy";
-        //     $title = "Hunt For The Red October";
-        //     $duedate = "5/15/2015";
-        //     $id = 1;
-        //     $test_book = new Book($author, $title, $id);
-        //
-        //     //Act
-        //     $result = $test_book->getDuedate();
-        //
-        //     //Assert
-        //     $this->assertEquals($duedate, $result);
-        //
-        // }
-
         function test_getId()
         {
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = 1;
             $test_book = new Book($author, $title, $id);
 
@@ -87,7 +68,6 @@
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = null;
             $test_book = new Book($author, $title, $id);
 
@@ -104,7 +84,6 @@
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = 1;
             $test_book = new Book($author, $title, $id);
             $test_book->save();
@@ -122,14 +101,12 @@
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = 1;
             $test_book = new Book($author, $title, $id);
             $test_book->save();
 
             $author2 = "Charles Dickens";
             $title2 = "Tale of Two Cities";
-            // $duedate2 = "4/23/2015";
             $id2 = 2;
             $test_book2 = new Book ($author2, $title2, $id2);
             $test_book2->save();
@@ -146,14 +123,12 @@
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = 1;
             $test_book = new Book($author, $title, $id);
             $test_book->save();
 
             $author2 = "Charles Dickens";
             $title2 = "Tale of Two Cities";
-            // $duedate2 = "4/23/2015";
             $id2 = 2;
             $test_book2 = new Book ($author2, $title2, $id2);
             $test_book2->save();
@@ -172,14 +147,12 @@
             //Arrange
             $author = "Tom Clancy";
             $title = "Hunt For The Red October";
-            // $duedate = "5/15/2015";
             $id = 1;
             $test_book = new Book($author, $title, $id);
             $test_book->save();
 
             $author2 = "Charles Dickens";
             $title2 = "Tale of Two Cities";
-            // $duedate2 = "4/23/2015";
             $id2 = 2;
             $test_book2 = new Book ($author2, $title2, $id2);
             $test_book2->save();
@@ -189,6 +162,57 @@
 
             //Assert
             $this->assertEquals($test_book, $result);
+        }
+
+        function test_addPatron()
+        {
+            //Arrange
+            $author = "Tom Clancy";
+            $title = "Hunt For The Red October";
+            $id = 1;
+            $test_book = new Book($author, $title, $id);
+            $test_book->save();
+
+            $name = "Tiny Tim";
+            $phone = "555-345-7895";
+            $id2 = 2;
+            $test_patron = new Patron($name, $phone, $id2);
+            $test_patron->save();
+
+            //Act
+            $test_book->addPatron($test_patron);
+
+            //Assert
+            $this->assertEquals($test_book->getPatrons(), [$test_patron]);
+        }
+
+        function test_getPatrons()
+        {
+            //Arrange
+            $author = "Tom Clancy";
+            $title = "Hunt For The Red October";
+            $id = 1;
+            $test_book = new Book($author, $title, $id);
+            $test_book->save();
+
+            $name = "Tiny Tim";
+            $phone = "555-345-7895";
+            $id2 = 2;
+            $test_patron = new Patron($name, $phone, $id2);
+            $test_patron->save();
+
+            $name2 = "Jimmy John";
+            $phone2 = "892-382-1910";
+            $id3 = 3;
+            $test_patron2 = new Patron($name2, $phone2, $id3);
+            $test_patron2->save();
+
+            //Act
+            $test_book->addPatron($test_patron);
+            $test_book->addPatron($test_patron2);
+
+            //Assert
+            $this->assertEquals($test_book->getPatrons(), [$test_patron, $test_patron2]);
         }
 
     }

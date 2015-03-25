@@ -2,7 +2,6 @@ Class Book
 ----------
 author
 title
-duedate
 id
 
 Class Patron
@@ -11,12 +10,10 @@ name varchar
 phone varchar
 id int
 
-
 books
 ----------
 author varchar
 title varchar
-duedate date
 id int
 
 patrons
@@ -27,9 +24,12 @@ id int
 
 books_patrons
 -------------
-book_id
-patron_id
-id
+book_id int
+patron_id int
+id int
+
+
+
 
 authors
 ----------
