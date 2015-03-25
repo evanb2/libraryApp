@@ -215,7 +215,23 @@
             $this->assertEquals($test_book->getPatrons(), [$test_patron, $test_patron2]);
         }
 
-        //function test_update()
+        function test_updateTitle()
+        {
+            //Arrange
+            $author = "Tom Clancy";
+            $title = "Hunt For The Red October";
+            $id = 1;
+            $test_book = new Book($author, $title, $id);
+            $test_book->save();
+
+            $new_title = "Alec Baldwin Saves the World";
+
+            //Act
+            $test_book->updateTitle($new_title);
+
+            //Assert
+            $this->assertEquals("Alec Baldwin Saves the World", $test_book->getTitle());
+        }
 
         //function test_deleteBook()
 
