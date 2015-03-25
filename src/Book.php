@@ -116,6 +116,10 @@
             $this->setTitle($new_title);
         }
 
-        //funnction deleteBook()
+        function deleteBook()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM books WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM books_patrons WHERE book_id = {$this->getId()};");
+        }
     }
 ?>

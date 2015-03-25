@@ -233,7 +233,27 @@
             $this->assertEquals("Alec Baldwin Saves the World", $test_book->getTitle());
         }
 
-        //function test_deleteBook()
+        function test_deleteBook()
+        {
+            //Arrange
+            $author = "Tom Clancy";
+            $title = "Hunt For The Red October";
+            $id = 1;
+            $test_book = new Book($author, $title, $id);
+            $test_book->save();
 
+            $name = "Tiny Tim";
+            $phone = "555-345-7895";
+            $id2 = 2;
+            $test_patron = new Patron($name, $phone, $id2);
+            $test_patron->save();
+
+            //Act
+            $test_book->addPatron($test_patron);
+            $test_book->deleteBook();
+
+            //Assert
+            $this->assertEquals([], $test_patron->getBooks());
+        }
     }
 ?>
