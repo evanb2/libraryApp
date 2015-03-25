@@ -15,7 +15,7 @@
         protected function tearDown()
         {
             Book::deleteAll();
-            // Patron::deleteAll();
+            Patron::deleteAll();
         }
 
         function test_getAuthor()

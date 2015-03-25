@@ -44,9 +44,37 @@
 
         function save()
         {
-            $statement = $GLOBALS['DB']->query("INSERT INTO books (author, title) VALUES ('{$this->getAuthor()}', '{$this->getTitle()}') RETURNING id;");
+            $statement = $GLOBALS['DB']->query("INSERT INTO books (author, title)
+                VALUES ('{$this->getAuthor()}', '{$this->getTitle()}') RETURNING id;");
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             $this->setId($result['id']);
+        }
+
+        function addPatron($patron)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO books_patrons (book_id, patron_id)
+                VALUES ({$this->getId()}, {$patron->getId()});");
+        }
+
+        function getPatrons()
+        {
+            $query = $GLOBALS['DB']->query("SELECT patron_id FROM books_patrons WHERE
+                book_id = {$this->getId()};");
+            $patron_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $patrons = array();
+            foreach($patron_ids as $id) {
+                $patron_id = $id['patron_id'];
+                $result = $GLOBALS['DB']->query("SELECT * FROM patrons WHERE id = {$patron_id};");
+                $returned_patron = $result->fetchAll(PDO::FETCH_ASSOC);
+
+                $name = $returned_patron[0]['name'];
+                $phone = $returned_patron[0]['phone'];
+                $id = $returned_patron[0]['id'];
+                $new_patron = new Patron($name, $phone, $id);
+                array_push($patrons, $new_patron);
+            }
+            return $patrons;
         }
 
         static function getAll()
