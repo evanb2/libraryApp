@@ -65,9 +65,50 @@
             return $patrons;
         }
 
+        static function find($search_id)
+        {
+            $found_patron = null;
+            $patrons = Patron::getAll();
+            foreach($patrons as $patron) {
+                $patron_id = $patron->getId();
+                if ($patron_id == $search_id) {
+                    $found_patron = $patron;
+                }
+            }
+            return $found_patron;
+        }
+
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM patrons *;");
         }
+
+        function addBook($book)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO books_patrons (book_id, patron_id)
+                VALUES ({$book->getId()}, {$this->getId()});");
+        }
+
+        function getBooks()
+        {
+            $query = $GLOBALS['DB']->query("SELECT book_id FROM books_patrons WHERE patron_id = {$this->getId()};");
+            $book_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $books = array();
+            foreach($book_ids as $id) {
+                $book_id = $id['book_id'];
+                $result = $GLOBALS['DB']->query("SELECT * FROM books WHERE id = {$book_id};");
+                $returned_book = $result->fetchAll(PDO::FETCH_ASSOC);
+
+                $author = $returned_book[0]['author'];
+                $title = $returned_book[0]['title'];
+                $id = $returned_book[0]['id'];
+                $new_book = new Book($author, $title, $id);
+                array_push($books, $new_book);
+            }
+            return $books;
+        }
     }
+
+
 ?>
