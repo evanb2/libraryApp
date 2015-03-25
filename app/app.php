@@ -5,6 +5,8 @@
 
     $app = new Silex\Application();
 
+    $app['debug'] = true;
+
     $DB = new PDO('pgsql:host=localhost;dbname=library_test');
 
     $app->register(new Silex\Provider\TwigServiceProvider(), array(
@@ -31,7 +33,7 @@
     //READ singular book
     $app->get("/books/{id}", function($id) use ($app) {
         $book = Book::find($id);
-        return $app['twig']->render('books.twig', array('book' => $book, 'patrons' => $book->getPatrons(), 'all_patrons' => Patron::getAll()));
+        return $app['twig']->render('book.twig', array('book' => $book, 'patrons' => $book->getPatrons(), 'all_patrons' => Patron::getAll()));
     });
 
     //READ singular patron
@@ -41,7 +43,10 @@
     });
 
     //READ edit forms
-    // $app->get("/books")
+    $app->get("/books/{id}/edit", function($id) use ($app) {
+        $book = Book::find($id);
+        return $app['twig']->render('book_edit.twig', array('book' => $book));
+    });
 
     //CREATE book
     $app->post("/books", function() use ($app) {
@@ -96,6 +101,13 @@
     //DELETE singular book
 
     //PATCH routes
+    $app->patch("/books/{id}", function($id) use ($app) {
+        $title = $_POST['title'];
+        $book = Book::find($id);
+        $book->updateTitle($title);
+        return $app['twig']->render('book.twig', array('book' => $book, 'patrons' => $book->getPatrons(), 'all_patrons' => Patron::getAll()));
+
+    });
 
     return $app;
 
