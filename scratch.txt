@@ -1,0 +1,41 @@
+Class Book
+----------
+author
+title
+duedate
+id
+
+Class Patron
+----------
+name varchar
+phone varchar
+id int
+
+
+books
+----------
+author varchar
+title varchar
+duedate date
+id int
+
+authors
+----------
+title varchar
+id int
+
+copies
+----------
+number varchar
+id int
+
+checkouts (patrons and copies)
+----------
+patron_id int
+copy_id int
+
+patrons
+----------
+name varchar
+phone varchar
+id int
